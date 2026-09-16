@@ -5,6 +5,6 @@ import { ProductDetail } from "@/components/product-detail";
 export default async function ProductPage({ params }: { params: Promise<{ productSlug: string }> }) {
   const { productSlug } = await params;
   const product = getProductBySlug(productSlug);
-  if (!product || product.category_slug !== "usi-exterior") notFound();
+  if (!product || product.category_slug !== "ferestre") notFound();
   return <ProductDetail key={product.code} product={product} />;
 }

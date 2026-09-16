@@ -29,7 +29,7 @@ const dict = {
 
   // Showcase
   "showcase.title": { ro: "Produsele Noastre", en: "Our Products", de: "Unsere Produkte" },
-  "showcase.count": { ro: "( 165+ modele )", en: "( 165+ models )", de: "( 165+ Modelle )" },
+  "showcase.count": { ro: "( 165+ modele disponibile )", en: "( 165+ models available )", de: "( 165+ Modelle verfügbar )" },
   "showcase.usi_exterior": { ro: "Uși Exterior", en: "Exterior Doors", de: "Außen-Türen" },
   "showcase.ferestre": { ro: "Ferestre PVC", en: "PVC Windows", de: "PVC-Fenster" },
   "showcase.usi_interior": { ro: "Uși Interior", en: "Interior Doors", de: "Innen-Türen" },
@@ -82,7 +82,7 @@ const dict = {
   "about.telefon": { ro: "Telefon", en: "Phone", de: "Telefon" },
 
   // Stats
-  "stats.modele": { ro: "Modele", en: "Models", de: "Modelle" },
+  "stats.modele": { ro: "Modele disponibile", en: "Models available", de: "Verfügbare Modelle" },
   "stats.national": { ro: "Livrare Națională", en: "Nationwide Delivery", de: "Lieferung in ganz Rumänien" },
   "stats.plata": { ro: "Plată la Livrare", en: "Cash on Delivery", de: "Nachnahme" },
   "stats.parteneri": { ro: "Parteneri Chirmandi", en: "Chirmandi Partners", de: "Chirmandi-Partner" },
