@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "./providers";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,7 @@ export function Navbar() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled ? "bg-white/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
+          scrolled ? "bg-white/95 backdrop-blur-sm" : "bg-transparent"
         )}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -42,16 +43,16 @@ export function Navbar() {
             className="text-xl font-bold tracking-[0.2em] text-[#141414]"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
-            BAUSTOFFE
+            <Image src="/baustoffe-assets/logo.png" alt="Baustoffe" width={2399} height={232} className="w-[170px] lg:w-[210px] h-auto" />
           </Link>
 
           {/* Desktop nav */}
           <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
-                  href={`/${locale === "ro" ? "" : locale}${link.href}`}
+                  href={`${locale === "ro" ? "" : `/${locale}`}${link.href}`}
                   className="text-[11px] uppercase tracking-wider text-[#141414]/80 hover:text-[#141414] transition-colors duration-200"
                   style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
                 >
@@ -79,7 +80,7 @@ export function Navbar() {
 
             {/* Cart */}
             <Link
-              href={`/${locale === "ro" ? "" : locale}/cos`}
+              href={`${locale === "ro" ? "" : `/${locale}`}/cos`}
               className="relative text-[#141414] hover:text-[#141414]/70 transition-colors duration-200"
             >
               <ShoppingBag size={20} strokeWidth={1.5} />
@@ -92,7 +93,7 @@ export function Navbar() {
 
             {/* CTA */}
             <Link
-              href={`/${locale === "ro" ? "" : locale}/cere-oferta`}
+              href={`${locale === "ro" ? "" : `/${locale}`}/cere-oferta`}
               className="hidden sm:inline-flex text-[11px] uppercase tracking-wider text-[#141414]/80 hover:text-[#141414] transition-colors duration-200"
               style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
             >
@@ -101,7 +102,7 @@ export function Navbar() {
 
             {/* Mobile menu toggle */}
             <button
-              className="md:hidden text-[#141414]"
+              className="lg:hidden text-[#141414]"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
             >
@@ -119,7 +120,7 @@ export function Navbar() {
               className="text-xl font-bold tracking-[0.2em] text-[#141414]"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              BAUSTOFFE
+              <Image src="/baustoffe-assets/logo.png" alt="Baustoffe" width={2399} height={232} className="w-[170px] lg:w-[210px] h-auto" />
             </span>
             <button onClick={() => setMobileOpen(false)} aria-label="Close menu">
               <X size={24} strokeWidth={1.5} />
@@ -129,7 +130,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={`/${locale === "ro" ? "" : locale}${link.href}`}
+                href={`${locale === "ro" ? "" : `/${locale}`}${link.href}`}
                 onClick={() => setMobileOpen(false)}
                 className="text-lg text-[#141414]"
                 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
