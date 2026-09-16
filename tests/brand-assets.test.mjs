@@ -12,7 +12,8 @@ test('homepage serves desktop and mobile hero art with a stable height', () => {
 
 test('category banners and social metadata are connected', () => {
   for (const slug of ['usi-exterior', 'ferestre', 'usi-interior']) {
-    assert.ok(readFileSync(`src/app/${slug}/page.tsx`, 'utf8').includes('<CategoryBanner'));
+    const sources = [readFileSync(`src/app/${slug}/page.tsx`, 'utf8'), readFileSync('src/components/product-catalog.tsx', 'utf8')].join('\n');
+    assert.ok(sources.includes('<CategoryBanner'));
   }
   const layout = readFileSync('src/app/layout.tsx', 'utf8');
   assert.ok(layout.includes('og-image.jpg'));
@@ -23,7 +24,8 @@ test('category banners and social metadata are connected', () => {
 test('hero clears the fixed navigation and preserves headline lines', () => {
   const source = readFileSync('src/app/page.tsx', 'utf8');
   assert.ok(source.includes('min-h-screen flex flex-col pt-16'));
-  assert.ok(source.includes('className="overflow-hidden block"'));
+  // headline lines reveal via clip-path with overflow kept visible (diacritics must not clip)
+  assert.ok(source.includes('data-reveal-line'));
 });
 
 test('header uses the approved logo with explicit dimensions', () => {

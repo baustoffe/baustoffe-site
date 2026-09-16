@@ -2,21 +2,24 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { ArrowRight, Truck, Banknote, Handshake } from "lucide-react";
+import { products, getProductHref } from "@/lib/products";
+import { formatPrice } from "@/lib/utils";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { CategoryBanner } from "@/components/category-banner";
 import { translate, TranslationKey } from "@/lib/i18n";
 import { useLocale } from "@/lib/locale-context";
 
 function ClipReveal({ words, className }: { words: string[]; className?: string }) {
+  const reducedMotion = useReducedMotion();
   return (
     <div className={className}>
       {words.map((word, i) => (
-        <span key={i} className="overflow-hidden block">
+        <span key={i} data-reveal-line className="block overflow-visible">
           <motion.span
-            className="inline-block"
-            initial={{ clipPath: "inset(0 100% 0 0)" }}
-            animate={{ clipPath: "inset(0 0% 0 0)" }}
+            className="inline-block py-[0.18em] -my-[0.18em]"
+            initial={reducedMotion ? false : { clipPath: "inset(-20% 100% -25% -2%)" }}
+            animate={{ clipPath: "inset(-20% -2% -25% -2%)" }}
             transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
           >
             {word}
@@ -65,14 +68,10 @@ function CountUp({ end, suffix = "" }: { end: number; suffix?: string }) {
 export default function HomePage() {
   const { locale } = useLocale();
 
-  const showcase = [
-    { aspect: "4/3", labelKey: "showcase.usi_exterior" as TranslationKey, price: translate("showcase.de_la", locale) + " 3.490 Lei", href: "/usi-exterior" },
-    { aspect: "3/4", labelKey: "showcase.ferestre" as TranslationKey, price: translate("showcase.de_la", locale) + " 1.890 Lei", href: "/ferestre" },
-    { aspect: "4/3", labelKey: "showcase.usi_interior" as TranslationKey, price: translate("showcase.de_la", locale) + " 1.250 Lei", href: "/usi-interior" },
-    { aspect: "3/4", labelKey: "showcase.usi_exterior" as TranslationKey, price: translate("showcase.de_la", locale) + " 4.120 Lei", href: "/usi-exterior" },
-    { aspect: "4/3", labelKey: "showcase.geam" as TranslationKey, price: translate("showcase.de_la", locale) + " 2.150 Lei", href: "/ferestre" },
-    { aspect: "3/4", labelKey: "showcase.euro_classic" as TranslationKey, price: translate("showcase.de_la", locale) + " 2.890 Lei", href: "/usi-interior" },
-  ];
+  const showcase = ["usi-exterior", "ferestre", "usi-interior"].flatMap(category =>
+    products.filter(product => product.category_slug === category).slice(0, 2)
+  );
+  const articleCount = products.reduce((total, product) => total + product.variants.length, 0);
 
   const vindem = [
     { nameKey: "vindem.usi_exterior" as TranslationKey, descKey: "vindem.usi_exterior_desc" as TranslationKey, href: "/usi-exterior" },
@@ -96,7 +95,6 @@ export default function HomePage() {
           <picture>
             <source media="(max-width: 639px)" srcSet="/baustoffe-assets/hero-mobile.webp" />
             {/* Art-directed, pre-compressed hero: only the matching crop downloads. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/baustoffe-assets/hero.webp" alt="Casă contemporană cu ușă închisă la culoare și ferestre ample — imagine de inspirație" width={1920} height={1086} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
           </picture>
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(250,250,250,1) 0%, transparent 40%)" }} />
@@ -106,7 +104,7 @@ export default function HomePage() {
             <p className="label-uppercase text-[#141414]/50 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               {translate("hero.label", locale)}
             </p>
-            <h1 className="text-[clamp(56px,8vw,128px)] font-bold leading-[0.9] text-[#141414] mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <h1 className="text-[clamp(56px,8vw,128px)] font-bold leading-[1.08] text-[#141414] mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               <ClipReveal words={translate("hero.headline", locale).split("\n")} />
             </h1>
             <div className="flex items-center gap-6">
@@ -131,17 +129,16 @@ export default function HomePage() {
           <div className="columns-1 md:columns-2 gap-6">
             {showcase.map((item, i) => (
               <StaggerFade key={i} index={i} className="break-inside-avoid mb-6">
-                <Link href={item.href} className="group block relative overflow-hidden" style={{ aspectRatio: item.aspect }}>
-                  <div className="absolute inset-0 bg-[#e8e8e8] flex items-center justify-center">
-                    <span className="text-[#aaa] text-xs uppercase tracking-widest">{translate(item.labelKey, locale)}</span>
-                  </div>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/85 transition-opacity duration-300 flex flex-col justify-center px-6">
-                    <motion.h3 className="text-white text-xl font-bold mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }} initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                      {translate(item.labelKey, locale)}
-                    </motion.h3>
-                    <motion.p className="text-white/70 text-[10px] uppercase tracking-widest" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300 }} initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }}>
-                      {item.price}
-                    </motion.p>
+                <Link href={getProductHref(item)} className="group block relative bg-[#ededeb] focus-visible:outline-2 focus-visible:outline-offset-4" style={{ aspectRatio: i % 2 ? "3/4" : "4/3" }}>
+                  {/* Real manufacturer photography, never an inspiration render. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.image} alt={item.base_name_ro} loading="lazy" width={700} height={800} className="absolute inset-0 w-full h-full object-contain p-8 pb-24 transition-transform duration-300 group-hover:scale-[1.025] motion-reduce:transition-none" />
+                  <div className="absolute bottom-0 inset-x-0 bg-white/95 px-6 py-4 flex items-center justify-between gap-4">
+                    <div>
+                      <h3 className="text-[#141414] text-base font-medium">{item.base_name_ro}</h3>
+                      <p className="text-[#141414]/60 text-xs mt-1">{translate("showcase.de_la", locale)} {formatPrice(item.base_price_ron)}</p>
+                    </div>
+                    <ArrowRight aria-hidden="true" size={20} className="shrink-0" />
                   </div>
                 </Link>
               </StaggerFade>
@@ -200,21 +197,21 @@ export default function HomePage() {
       </section>
 
       {/* STATS STRIP */}
-      <section className="bg-[#141414] py-[80px] px-6">
+      <section data-trust-strip className="bg-[#141414] py-[80px] px-6">
         <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { value: "165", suffix: "+", labelKey: "stats.modele" as TranslationKey },
-            { value: "", suffix: "", labelKey: "stats.national" as TranslationKey },
-            { value: "", suffix: "", labelKey: "stats.plata" as TranslationKey },
-            { value: "", suffix: "", labelKey: "stats.parteneri" as TranslationKey },
+            { value: articleCount, icon: null, labelKey: "stats.modele" as TranslationKey },
+            { value: 0, icon: Truck, labelKey: "stats.national" as TranslationKey },
+            { value: 0, icon: Banknote, labelKey: "stats.plata" as TranslationKey },
+            { value: 0, icon: Handshake, labelKey: "stats.parteneri" as TranslationKey },
           ].map((stat, i) => (
             <StaggerFade key={i} index={i}>
               <div>
-                {stat.value ? (
-                  <p className="text-4xl md:text-5xl font-bold text-white mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                    <CountUp end={parseInt(stat.value)} suffix={stat.suffix} />
-                  </p>
-                ) : <div className="h-12" />}
+                <div data-stat-visual style={{ minHeight: "64px", display: "flex", alignItems: "center", justifyContent: "center" }} className="mb-3 text-white">
+                  {stat.icon ? <stat.icon size={44} strokeWidth={1.5} aria-hidden="true" /> : (
+                    <p className="text-4xl md:text-5xl font-bold leading-none"><CountUp end={stat.value} /></p>
+                  )}
+                </div>
                 <p className="text-[10px] uppercase tracking-widest text-white/50 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(stat.labelKey, locale)}</p>
               </div>
             </StaggerFade>
@@ -249,7 +246,7 @@ export default function HomePage() {
       {/* CONTACT CTA */}
       <section className="bg-[#141414] py-24 px-6">
         <div className="mx-auto max-w-4xl">
-          <h2 className="text-[clamp(48px,6vw,96px)] font-bold text-white leading-[0.95] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2 className="text-[clamp(48px,6vw,96px)] font-bold text-white leading-[1.08] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             <ClipReveal words={translate("cta.headline", locale).split("\n")} />
           </h2>
           <p className="text-white/50 font-light mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("cta.sub", locale)}</p>
