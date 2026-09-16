@@ -5,57 +5,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCart } from "@/components/providers";
 import { ShoppingBag } from "lucide-react";
-
-const mockProduct: Record<string, any> = {
-  "kira-big": {
-    name: "Kira Big",
-    code: "BB-EXT-001",
-    price: 3490,
-    baseSizes: ["80x200", "90x210", "100x220"],
-    materials: "PVC / Termopan",
-    glass: "Sticlă termoizolantă",
-    leaf: "Simplă",
-    description: "Ușa Kira Big combină designul modern cu performanța termică superioară. Profilele PVC de înaltă calitate asigură izolație termică și fonică excelentă.",
-    variants: [
-      { color: "Alb", hex: "#f5f5f0", code: "BB-EXT-001-ALB" },
-      { color: "Nuc", hex: "#5c4033", code: "BB-EXT-001-NUC" },
-      { color: "Stejar Auriu", hex: "#b8860b", code: "BB-EXT-001-AURIU" },
-    ],
-  },
-  "euro-classic": {
-    name: "Euro Classic",
-    code: "BB-EXT-002",
-    price: 2890,
-    baseSizes: ["90x210", "100x220"],
-    materials: "PVC",
-    glass: "Sticlă standard",
-    leaf: "Dublă",
-    description: "Ușa Euro Classic oferă un aspect clasic cu performanțe moderne. Ideală pentru interioare care apreciază eleganța și funcționalitatea.",
-    variants: [
-      { color: "Alb", hex: "#f5f5f0", code: "BB-EXT-002-ALB" },
-      { color: "Stejar Auriu", hex: "#b8860b", code: "BB-EXT-002-AURIU" },
-    ],
-  },
-  "pragma-plus": {
-    name: "Pragma Plus",
-    code: "BB-EXT-003",
-    price: 3890,
-    baseSizes: ["80x200", "85x205", "90x210"],
-    materials: "PVC Premium / Termopan",
-    glass: "Sticlă termoizolantă 3 camere",
-    leaf: "Simplă",
-    description: "Pragma Plus este alegerea premium — design contemporan, izolație termică superioară și securitate crescută.",
-    variants: [
-      { color: "Antracit", hex: "#36454f", code: "BB-EXT-003-Antracit" },
-      { color: "Alb", hex: "#f5f5f0", code: "BB-EXT-003-ALB" },
-    ],
-  },
-};
+import { getProductBySlug } from "@/lib/products";
+import { formatPrice, formatSize } from "@/lib/utils";
 
 export default function ProductDetailPage() {
   const params = useParams();
   const slug = params.productSlug as string;
-  const product = mockProduct[slug];
+  const product = getProductBySlug(slug);
   const { addItem } = useCart();
 
   const [selectedVariant, setSelectedVariant] = useState(0);
@@ -74,7 +30,7 @@ export default function ProductDetailPage() {
   }
 
   const variant = product.variants[selectedVariant];
-  const size = product.baseSizes[selectedSize];
+  const size = product.sizes[selectedSize];
 
   return (
     <div className="pt-24 pb-20 px-6">
@@ -83,19 +39,19 @@ export default function ProductDetailPage() {
         <div>
           <div className="bg-[#e8e8e8] aspect-square flex items-center justify-center mb-3">
             <div className="text-center">
-              <span className="text-[#aaa] text-xs uppercase tracking-widest block">{product.name}</span>
-              <span className="text-[#aaa] text-[10px] uppercase tracking-widest">{variant.color}</span>
+              <span className="text-[#aaa] text-xs uppercase tracking-widest block">{product.base_name_ro}</span>
+              <span className="text-[#aaa] text-[10px] uppercase tracking-widest">{variant.color_name_ro}</span>
             </div>
           </div>
           <div className="flex gap-2">
-            {product.variants.map((v: any, i: number) => (
+            {product.variants.map((v, i) => (
               <button
                 key={v.code}
                 onClick={() => { setSelectedVariant(i); setSelectedSize(0); }}
                 className={`w-16 h-16 bg-[#e8e8e8] border-2 ${i === selectedVariant ? "border-[#141414]" : "border-transparent"} flex items-center justify-center`}
-                title={v.color}
+                title={v.color_name_ro}
               >
-                <span className="w-8 h-8 block" style={{ backgroundColor: v.hex, border: "1px solid rgba(0,0,0,0.1)" }} />
+                <span className="w-8 h-8 block" style={{ backgroundColor: v.color_hex, border: "1px solid rgba(0,0,0,0.1)" }} />
               </button>
             ))}
           </div>
@@ -104,24 +60,24 @@ export default function ProductDetailPage() {
         {/* Details */}
         <div>
           <p className="text-[10px] uppercase tracking-wider text-[#141414]/40" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{product.code}</p>
-          <h1 className="text-3xl md:text-4xl font-bold text-[#141414] mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{product.name}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#141414] mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{product.base_name_ro}</h1>
           <p className="text-2xl font-bold text-[#141414] mt-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            {product.price.toLocaleString("ro-RO")} Lei
+            {formatPrice(product.base_price_ron)}
           </p>
 
-          <p className="text-sm text-[#141414]/60 mt-6 leading-relaxed" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{product.description}</p>
+          <p className="text-sm text-[#141414]/60 mt-6 leading-relaxed" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{product.description_ro}</p>
 
           {/* Color swatches */}
           <div className="mt-6">
             <p className="text-[11px] uppercase tracking-wider text-[#141414]/40 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Culoare</p>
             <div className="flex gap-2">
-              {product.variants.map((v: any, i: number) => (
+              {product.variants.map((v, i) => (
                 <button
                   key={v.code}
                   onClick={() => setSelectedVariant(i)}
                   className={`w-8 h-8 border-2 ${i === selectedVariant ? "border-[#141414]" : "border-transparent"}`}
-                  style={{ backgroundColor: v.hex }}
-                  title={v.color}
+                  style={{ backgroundColor: v.color_hex }}
+                  title={v.color_name_ro}
                 />
               ))}
             </div>
@@ -131,14 +87,14 @@ export default function ProductDetailPage() {
           <div className="mt-6">
             <p className="text-[11px] uppercase tracking-wider text-[#141414]/40 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Dimensiune</p>
             <div className="flex flex-wrap gap-2">
-              {product.baseSizes.map((s: string, i: number) => (
+              {product.sizes.map((s, i) => (
                 <button
-                  key={s}
+                  key={`${s.width_cm}x${s.height_cm}`}
                   onClick={() => setSelectedSize(i)}
                   className={`px-4 py-2 text-[11px] uppercase tracking-wider border transition-colors ${i === selectedSize ? "bg-[#141414] text-white border-[#141414]" : "bg-white text-[#141414] border-[#141414]/20 hover:border-[#141414]/50"}`}
                   style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}
                 >
-                  {s}
+                  {formatSize(s.width_cm, s.height_cm)}
                 </button>
               ))}
             </div>
@@ -155,7 +111,7 @@ export default function ProductDetailPage() {
               <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 flex items-center justify-center hover:bg-[#f5f5f5]">+</button>
             </div>
             <button
-              onClick={() => addItem({ variant_id: variant.code, product_id: product.code, name: product.name, color: variant.color, size, quantity, unit_price_ron: product.price })}
+              onClick={() => addItem({ variant_id: variant.code, product_id: product.code, name: product.base_name_ro, color: variant.color_name_ro, size: size ? formatSize(size.width_cm, size.height_cm) : "Standard", quantity, unit_price_ron: product.base_price_ron })}
               className="inline-flex items-center bg-[#141414] text-white px-8 py-3 text-[11px] uppercase tracking-wider hover:bg-[#2a2a2a] transition-colors"
               style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}
             >
@@ -166,9 +122,9 @@ export default function ProductDetailPage() {
 
           {/* Meta */}
           <div className="mt-8 pt-6 border-t border-[#e5e5e5] space-y-1 text-[11px] text-[#141414]/40 uppercase tracking-wider" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            <p>Material: {product.materials}</p>
-            <p>Sticlă: {product.glass}</p>
-            <p>Frunză: {product.leaf}</p>
+            <p>Material: {product.material}</p>
+            <p>Sticlă: {product.glass_type}</p>
+            <p>Frunză: {product.is_double ? "Dublă" : "Simplă"}</p>
           </div>
         </div>
       </div>
