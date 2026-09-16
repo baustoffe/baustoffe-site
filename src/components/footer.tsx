@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { translate, TranslationKey } from "@/lib/i18n";
 import { useLocale } from "@/lib/locale-context";
 
@@ -17,7 +18,7 @@ export function Footer() {
             className="text-lg font-bold tracking-[0.2em] text-[#141414]"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
-            BAUSTOFFE
+            <Image src="/baustoffe-assets/logo.png" alt="Baustoffe" width={2399} height={232} className="w-[170px] lg:w-[210px] h-auto" />
           </Link>
 
           {/* Center nav */}

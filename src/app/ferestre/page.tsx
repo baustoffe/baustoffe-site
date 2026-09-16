@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CategoryBanner } from "@/components/category-banner";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
@@ -95,6 +96,7 @@ export default function FerestrePage() {
 
   return (
     <div className="pt-24">
+      <div className="mx-auto max-w-7xl px-6 mb-8"><CategoryBanner category="windows" /></div>
       <div className="mx-auto max-w-7xl px-6 pb-8">
         <nav className="text-[11px] text-[#141414]/40 mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
           <Link href="/" className="hover:text-[#141414]">{translate('cat.breadcrumb', locale)}</Link>

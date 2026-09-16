@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { useCart } from "@/components/providers";
+import { CategoryBanner } from "@/components/category-banner";
 import { translate, TranslationKey } from "@/lib/i18n";
 import { useLocale } from "@/lib/locale-context";
 
@@ -12,7 +12,7 @@ function ClipReveal({ words, className }: { words: string[]; className?: string 
   return (
     <div className={className}>
       {words.map((word, i) => (
-        <span key={i} className="overflow-hidden inline-block">
+        <span key={i} className="overflow-hidden block">
           <motion.span
             className="inline-block"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
@@ -91,11 +91,14 @@ export default function HomePage() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col">
-        <div className="relative w-full flex-[0.7] bg-[#e8e8e8] overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-[#999] text-sm uppercase tracking-widest">Hero Image — Higgsfield Tier 2 Asset</p>
-          </div>
+      <section className="relative min-h-screen flex flex-col pt-16">
+        <div className="relative w-full h-[70svh] min-h-[360px] bg-[#e8e8e8] overflow-hidden">
+          <picture>
+            <source media="(max-width: 639px)" srcSet="/baustoffe-assets/hero-mobile.webp" />
+            {/* Art-directed, pre-compressed hero: only the matching crop downloads. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/baustoffe-assets/hero.webp" alt="Casă contemporană cu ușă închisă la culoare și ferestre ample — imagine de inspirație" width={1920} height={1086} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
+          </picture>
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(250,250,250,1) 0%, transparent 40%)" }} />
         </div>
         <div className="flex-1 flex items-end pb-16 md:pb-24 px-6">
@@ -169,14 +172,12 @@ export default function HomePage() {
       <section className="py-20 px-6">
         <div className="mx-auto max-w-4xl text-center mb-16">
           <p className="italic text-[#141414]/80 leading-relaxed" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "clamp(28px, 3vw, 48px)" }}>
-            "{translate("about.quote", locale)}"
+            &ldquo;{translate("about.quote", locale)}&rdquo;
           </p>
         </div>
         <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <StaggerFade index={0}>
-            <div className="bg-[#e8e8e8] aspect-[4/5] flex items-center justify-center">
-              <span className="text-[#aaa] text-xs uppercase tracking-widest">Imagine — detalii produs</span>
-            </div>
+            <CategoryBanner category="windows" portrait />
           </StaggerFade>
           <div className="pt-2">
             <StaggerFade index={1}>
