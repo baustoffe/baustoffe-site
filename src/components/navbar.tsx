@@ -5,31 +5,28 @@ import Link from "next/link";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "./providers";
 import { cn } from "@/lib/utils";
+import { translate, TranslationKey } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 
 const navLinks = [
-  { href: "/usi-exterior", labelRo: "Uși Exterior", labelEn: "Exterior Doors", labelDe: "Außen-Türen" },
-  { href: "/ferestre", labelRo: "Ferestre", labelEn: "Windows", labelDe: "Fenster" },
-  { href: "/usi-interior", labelRo: "Uși Interior", labelEn: "Interior Doors", labelDe: "Innen-Türen" },
-  { href: "/despre-noi", labelRo: "Despre", labelEn: "About", labelDe: "Über uns" },
-  { href: "/contact", labelRo: "Contact", labelEn: "Contact", labelDe: "Kontakt" },
+  { href: "/usi-exterior", labelKey: "nav.usi_exterior" as TranslationKey },
+  { href: "/ferestre", labelKey: "nav.ferestre" as TranslationKey },
+  { href: "/usi-interior", labelKey: "nav.usi_interior" as TranslationKey },
+  { href: "/despre-noi", labelKey: "nav.despre" as TranslationKey },
+  { href: "/contact", labelKey: "nav.contact" as TranslationKey },
 ];
 
 export function Navbar() {
   const { totalCount } = useCart();
+  const { locale, setLocale } = useLocale();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [locale, setLocale] = useState<"ro" | "en" | "de">("ro");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const label = (l: (typeof navLinks)[0]["labelRo"]) => {
-    if (locale === "en") return l as string;
-    return l;
-  };
 
   return (
     <>
@@ -58,7 +55,7 @@ export function Navbar() {
                   className="text-[11px] uppercase tracking-wider text-[#141414]/80 hover:text-[#141414] transition-colors duration-200"
                   style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
                 >
-                  {label(link.labelRo)}
+                  {translate(link.labelKey, locale)}
                 </Link>
               ))}
             </div>
@@ -99,7 +96,7 @@ export function Navbar() {
               className="hidden sm:inline-flex text-[11px] uppercase tracking-wider text-[#141414]/80 hover:text-[#141414] transition-colors duration-200"
               style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
             >
-              Cere o ofertă →
+              {translate("nav.cere_oferta", locale)}
             </Link>
 
             {/* Mobile menu toggle */}
@@ -137,7 +134,7 @@ export function Navbar() {
                 className="text-lg text-[#141414]"
                 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
               >
-                {label(link.labelRo)}
+                {translate(link.labelKey, locale)}
               </Link>
             ))}
             <hr className="border-[#e5e5e5]" />

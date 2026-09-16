@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { translate, TranslationKey } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 
 export function Footer() {
+  const { locale } = useLocale();
+
   return (
     <footer className="bg-white border-t border-[#e5e5e5]">
       <div className="mx-auto max-w-7xl px-6 py-12">
@@ -17,11 +23,11 @@ export function Footer() {
           {/* Center nav */}
           <nav className="flex flex-wrap gap-6">
             {[
-              { href: "/usi-exterior", label: "Uși Exterior" },
-              { href: "/ferestre", label: "Ferestre" },
-              { href: "/usi-interior", label: "Uși Interior" },
-              { href: "/despre-noi", label: "Despre" },
-              { href: "/contact", label: "Contact" },
+              { href: "/usi-exterior", labelKey: "nav.usi_exterior" as TranslationKey },
+              { href: "/ferestre", labelKey: "nav.ferestre" as TranslationKey },
+              { href: "/usi-interior", labelKey: "nav.usi_interior" as TranslationKey },
+              { href: "/despre-noi", labelKey: "nav.despre" as TranslationKey },
+              { href: "/contact", labelKey: "nav.contact" as TranslationKey },
             ].map((link) => (
               <Link
                 key={link.href}
@@ -29,7 +35,7 @@ export function Footer() {
                 className="text-[11px] uppercase tracking-wider text-[#141414]/60 hover:text-[#141414] transition-colors duration-200"
                 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}
               >
-                {link.label}
+                {translate(link.labelKey, locale)}
               </Link>
             ))}
           </nav>
@@ -43,57 +49,72 @@ export function Footer() {
               className="text-[11px] uppercase tracking-wider text-[#141414]/40 hover:text-[#141414]/70 transition-colors"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Livrare & Plata
+              {translate("footer.livrare", locale)}
             </Link>
             <Link
               href="/politica-de-confidentialitate"
               className="text-[11px] uppercase tracking-wider text-[#141414]/40 hover:text-[#141414]/70 transition-colors"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Confidențialitate
+              {translate("footer.confidentialitate", locale)}
             </Link>
             <Link
               href="/termeni-si-conditii"
               className="text-[11px] uppercase tracking-wider text-[#141414]/40 hover:text-[#141414]/70 transition-colors"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Termeni & Condiții
+              {translate("footer.termeni", locale)}
             </Link>
             <Link
               href="/gdpr"
               className="text-[11px] uppercase tracking-wider text-[#141414]/40 hover:text-[#141414]/70 transition-colors"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              GDPR
+              {translate("footer.gdpr", locale)}
             </Link>
             <Link
               href="/politica-cookies"
               className="text-[11px] uppercase tracking-wider text-[#141414]/40 hover:text-[#141414]/70 transition-colors"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Cookies
+              {translate("footer.cookies", locale)}
             </Link>
           </div>
 
           <div className="flex flex-wrap items-center gap-4 mb-4">
-            {/* ANPC link */}
+            {/* ANPC — official logo from anpc.ro */}
             <a
               href="https://anpc.ro"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] uppercase tracking-wider text-[#141414]/40 hover:text-[#141414]/70 transition-colors"
+              title="ANPC - Autoritatea Națională pentru Protecția Consumatorilor"
             >
-              ANPC
+              <img
+                src="https://anpc.ro/wp-content/uploads/2021/03/logo-anpc.png"
+                alt="ANPC"
+                height={40}
+                style={{ display: "block" }}
+              />
             </a>
-            {/* SAL badge placeholder */}
-            <span className="text-[11px] uppercase tracking-wider text-[#141414]/40">
-              SAL
-            </span>
+            {/* SAL badge (not SOL) — current 2026 regulatory badge from anpc.ro */}
+            <a
+              href="https://anpc.ro"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="SAL - Soluționarea Alternativă a Litigiilor"
+            >
+              <img
+                src="https://anpc.ro/wp-content/uploads/2024/01/sal.png"
+                alt="SAL"
+                height={40}
+                style={{ display: "block" }}
+              />
+            </a>
           </div>
 
           {/* Legal identity line */}
           <p className="text-[11px] text-[#141414]/40" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Baustoffe este operat de Best Baustoffe SRL, CUI 52365190, Reg. Com. J2025062807006.
+            {translate("footer.legal_line", locale)}
           </p>
         </div>
       </div>

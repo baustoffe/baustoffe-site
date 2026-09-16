@@ -1,8 +1,11 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 
-// DRAFTED FROM CHIRMANDI'S TEMPLATE UNDER PARTNER AUTHORIZATION — PENDING VLAD'S MANUAL LEGAL REVIEW
+
+export const metadata: Metadata = {
+  title: "Politica de Confidențialitate | Baustoffe",
+  description: "Informații despre colectarea, prelucrarea și protecția datelor personale pe Baustoffe.ro.",
+};
 
 export default function PrivacyPage() {
   return (

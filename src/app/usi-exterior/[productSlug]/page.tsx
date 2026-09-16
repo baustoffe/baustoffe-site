@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCart } from "@/components/providers";
 import { ShoppingBag } from "lucide-react";
+import { translate } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 import { getProductBySlug } from "@/lib/products";
 import { formatPrice, formatSize } from "@/lib/utils";
 
@@ -13,6 +15,7 @@ export default function ProductDetailPage() {
   const slug = params.productSlug as string;
   const product = getProductBySlug(slug);
   const { addItem } = useCart();
+  const { locale } = useLocale();
 
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [selectedSize, setSelectedSize] = useState(0);
@@ -22,8 +25,8 @@ export default function ProductDetailPage() {
     return (
       <div className="pt-32 pb-20 px-6">
         <div className="mx-auto max-w-lg">
-          <h1 className="text-2xl font-bold text-[#141414] mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Produsul nu a fost găsit</h1>
-          <Link href="/usi-exterior" className="text-[#141414]/60 hover:text-[#141414] underline" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>← Întoarce-te la catalog</Link>
+          <h1 className="text-2xl font-bold text-[#141414] mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate('cat.missing_product', locale)}</h1>
+          <Link href="/usi-exterior" className="text-[#141414]/60 hover:text-[#141414] underline" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate('cat.back_to_catalog', locale)}</Link>
         </div>
       </div>
     );
@@ -69,7 +72,7 @@ export default function ProductDetailPage() {
 
           {/* Color swatches */}
           <div className="mt-6">
-            <p className="text-[11px] uppercase tracking-wider text-[#141414]/40 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Culoare</p>
+            <p className="text-[11px] uppercase tracking-wider text-[#141414]/40 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate('prod.culoare', locale)}</p>
             <div className="flex gap-2">
               {product.variants.map((v, i) => (
                 <button
@@ -85,7 +88,7 @@ export default function ProductDetailPage() {
 
           {/* Size selector */}
           <div className="mt-6">
-            <p className="text-[11px] uppercase tracking-wider text-[#141414]/40 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Dimensiune</p>
+            <p className="text-[11px] uppercase tracking-wider text-[#141414]/40 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate('prod.dimensiune', locale)}</p>
             <div className="flex flex-wrap gap-2">
               {product.sizes.map((s, i) => (
                 <button
@@ -99,7 +102,7 @@ export default function ProductDetailPage() {
               ))}
             </div>
             <Link href="/cere-oferta" className="inline-block mt-2 text-[11px] text-[#141414]/50 hover:text-[#141414] underline" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Dimensiune personalizată? Cere ofertă →
+              {translate('prod.dimensiune_custom', locale)}
             </Link>
           </div>
 
@@ -116,15 +119,15 @@ export default function ProductDetailPage() {
               style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}
             >
               <ShoppingBag size={14} className="mr-2" strokeWidth={1.5} />
-              Adaugă în coș
+              {translate('cat.adauga', locale)}
             </button>
           </div>
 
           {/* Meta */}
           <div className="mt-8 pt-6 border-t border-[#e5e5e5] space-y-1 text-[11px] text-[#141414]/40 uppercase tracking-wider" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            <p>Material: {product.material}</p>
-            <p>Sticlă: {product.glass_type}</p>
-            <p>Frunză: {product.is_double ? "Dublă" : "Simplă"}</p>
+            <p>{translate('prod.material', locale)}: {product.material}</p>
+            <p>{translate('prod.sticla', locale)}: {product.glass_type}</p>
+            <p>{translate('prod.frunza', locale)}: {product.is_double ? translate('prod.dubla', locale) : translate('prod.simpla', locale)}</p>
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const productPages: MetadataRoute.Sitemap = products.map((p) => ({
-    url: `${baseUrl}/usi-exterior/${p.slug}`,
+    url: `${baseUrl}/${p.category_slug}/${p.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.6,

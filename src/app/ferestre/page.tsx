@@ -8,6 +8,8 @@ import { useState } from "react";
 import { useCart } from "@/components/providers";
 import { cn } from "@/lib/utils";
 import { ShoppingBag } from "lucide-react";
+import { translate } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 import { products } from "@/lib/products";
 import { formatPrice, formatSize } from "@/lib/utils";
 
@@ -15,6 +17,7 @@ function ProductCard({ product, index }: { product: (typeof products)[0]; index:
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-30px" });
   const { addItem } = useCart();
+  const { locale } = useLocale();
   const defaultSize = product.sizes.find((s) => s.is_default) || product.sizes[0];
 
   return (
@@ -48,7 +51,7 @@ function ProductCard({ product, index }: { product: (typeof products)[0]; index:
           {product.sizes.map((s) => formatSize(s.width_cm, s.height_cm)).join(" · ")}
         </p>
         <p className="text-sm text-[#141414]/60 mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          de la {formatPrice(product.base_price_ron)}
+          {translate('cat.de_la', locale)} {formatPrice(product.base_price_ron)}
         </p>
         <div className="flex items-center gap-3 mt-3">
           <button
@@ -68,10 +71,10 @@ function ProductCard({ product, index }: { product: (typeof products)[0]; index:
             style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}
           >
             <ShoppingBag size={14} className="mr-1.5" strokeWidth={1.5} />
-            Adaugă în coș
+            {translate('cat.adauga', locale)}
           </button>
           <Link href="/cere-oferta" className="text-[11px] text-[#141414]/50 hover:text-[#141414] transition-colors" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Cere ofertă dimensiune →
+            {translate('cat.cere_oferta', locale)}
           </Link>
         </div>
       </div>
@@ -81,6 +84,7 @@ function ProductCard({ product, index }: { product: (typeof products)[0]; index:
 
 export default function FerestrePage() {
   const [activeColor, setActiveColor] = useState("Toate");
+  const { locale } = useLocale();
   const sampleProducts = products.filter((p) => p.category_slug === "ferestre");
   const colors = ["Toate", "Alb", "Nuc", "Stejar Auriu", "Antracit"];
 
@@ -93,13 +97,13 @@ export default function FerestrePage() {
     <div className="pt-24">
       <div className="mx-auto max-w-7xl px-6 pb-8">
         <nav className="text-[11px] text-[#141414]/40 mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          <Link href="/" className="hover:text-[#141414]">Acasă</Link>
+          <Link href="/" className="hover:text-[#141414]">{translate('cat.breadcrumb', locale)}</Link>
           <span className="mx-2">/</span>
-          <span>Ferestre</span>
+          <span>{translate('nav.ferestre', locale)}</span>
         </nav>
-        <h1 className="text-4xl md:text-5xl font-bold text-[#141414]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Ferestre</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-[#141414]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate('nav.ferestre', locale)}</h1>
         <p className="text-sm text-[#141414]/50 mt-2 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          Ferestre PVC cu termoizolație superioară, diverse dimensiuni și configurații.
+          {translate('cat.ferestre_desc', locale)}
         </p>
       </div>
       <div className="mx-auto max-w-7xl px-6 pb-8">

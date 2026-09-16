@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useCart } from "@/components/providers";
+import { translate, TranslationKey } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 
 function ClipReveal({ words, className }: { words: string[]; className?: string }) {
   return (
@@ -14,7 +16,7 @@ function ClipReveal({ words, className }: { words: string[]; className?: string 
           <motion.span
             className="inline-block"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
-            animate={{ clipPath: "inset(0 0 0 0)" }}
+            animate={{ clipPath: "inset(0 0% 0 0)" }}
             transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
           >
             {word}
@@ -61,27 +63,29 @@ function CountUp({ end, suffix = "" }: { end: number; suffix?: string }) {
 }
 
 export default function HomePage() {
+  const { locale } = useLocale();
+
   const showcase = [
-    { aspect: "4/3", label: "Uși Exterior", price: "de la 3.490 Lei", href: "/usi-exterior" },
-    { aspect: "3/4", label: "Ferestre PVC", price: "de la 1.890 Lei", href: "/ferestre" },
-    { aspect: "4/3", label: "Uși Interior", price: "de la 1.250 Lei", href: "/usi-interior" },
-    { aspect: "3/4", label: "Usa Kira Big", price: "de la 4.120 Lei", href: "/usi-exterior" },
-    { aspect: "4/3", label: "Geam Termopan", price: "de la 2.150 Lei", href: "/ferestre" },
-    { aspect: "3/4", label: "Usa Euro Classic", price: "de la 2.890 Lei", href: "/usi-interior" },
+    { aspect: "4/3", labelKey: "showcase.usi_exterior" as TranslationKey, price: translate("showcase.de_la", locale) + " 3.490 Lei", href: "/usi-exterior" },
+    { aspect: "3/4", labelKey: "showcase.ferestre" as TranslationKey, price: translate("showcase.de_la", locale) + " 1.890 Lei", href: "/ferestre" },
+    { aspect: "4/3", labelKey: "showcase.usi_interior" as TranslationKey, price: translate("showcase.de_la", locale) + " 1.250 Lei", href: "/usi-interior" },
+    { aspect: "3/4", labelKey: "showcase.usi_exterior" as TranslationKey, price: translate("showcase.de_la", locale) + " 4.120 Lei", href: "/usi-exterior" },
+    { aspect: "4/3", labelKey: "showcase.geam" as TranslationKey, price: translate("showcase.de_la", locale) + " 2.150 Lei", href: "/ferestre" },
+    { aspect: "3/4", labelKey: "showcase.euro_classic" as TranslationKey, price: translate("showcase.de_la", locale) + " 2.890 Lei", href: "/usi-interior" },
   ];
 
   const vindem = [
-    { name: "Uși Exterior", desc: "Uși de exterior PVC și termopan, rezistente și eficiente energetic.", href: "/usi-exterior" },
-    { name: "Ferestre PVC", desc: "Ferestre PVC cu termoizolație superioară, diverse dimensiuni.", href: "/ferestre" },
-    { name: "Uși Interior", desc: "Uși de interior elegante, funcționale, la prețuri competitive.", href: "/usi-interior" },
-    { name: "Cere Ofertă Personalizată", desc: "Dimensiuni sau culori speciale? Solicită o ofertă adaptată.", href: "/cere-oferta" },
+    { nameKey: "vindem.usi_exterior" as TranslationKey, descKey: "vindem.usi_exterior_desc" as TranslationKey, href: "/usi-exterior" },
+    { nameKey: "vindem.ferestre" as TranslationKey, descKey: "vindem.ferestre_desc" as TranslationKey, href: "/ferestre" },
+    { nameKey: "vindem.usi_interior" as TranslationKey, descKey: "vindem.usi_interior_desc" as TranslationKey, href: "/usi-interior" },
+    { nameKey: "vindem.oferta" as TranslationKey, descKey: "vindem.oferta_desc" as TranslationKey, href: "/cere-oferta" },
   ];
 
   const steps = [
-    { num: "01", title: "Alege Produsul", desc: "Răsfoiește catalogul nostru de peste 165 de modele." },
-    { num: "02", title: "Comandă sau Cere Ofertă", desc: "Adaugă în coș sau solicită ofertă pentru dimensiuni personalizate." },
-    { num: "03", title: "Confirmare Telefonică", desc: "Elena sau un coleg te sună pentru a confirma comanda." },
-    { num: "04", title: "Livrare sau Ridicare", desc: "Livrare națională (150 RON) sau ridicare gratuită din Sibiu." },
+    { num: "01", titleKey: "cum.step1_title" as TranslationKey, descKey: "cum.step1_desc" as TranslationKey },
+    { num: "02", titleKey: "cum.step2_title" as TranslationKey, descKey: "cum.step2_desc" as TranslationKey },
+    { num: "03", titleKey: "cum.step3_title" as TranslationKey, descKey: "cum.step3_desc" as TranslationKey },
+    { num: "04", titleKey: "cum.step4_title" as TranslationKey, descKey: "cum.step4_desc" as TranslationKey },
   ];
 
   return (
@@ -97,17 +101,17 @@ export default function HomePage() {
         <div className="flex-1 flex items-end pb-16 md:pb-24 px-6">
           <div className="mx-auto w-full max-w-7xl">
             <p className="label-uppercase text-[#141414]/50 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Uși și Ferestre PVC — Distribuitor Autorizat Chirmandi · România
+              {translate("hero.label", locale)}
             </p>
             <h1 className="text-[clamp(56px,8vw,128px)] font-bold leading-[0.9] text-[#141414] mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              <ClipReveal words={["Uși.", "Ferestre.", "Calitate."]} />
+              <ClipReveal words={translate("hero.headline", locale).split("\n")} />
             </h1>
             <div className="flex items-center gap-6">
               <Link href="/usi-exterior" className="inline-flex items-center bg-[#141414] text-white px-8 py-3 text-sm font-medium tracking-wider hover:bg-[#2a2a2a] transition-colors duration-200" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>
-                Vezi produsele →
+                {translate("hero.cta_products", locale)}
               </Link>
               <Link href="/cere-oferta" className="inline-flex items-center text-[#141414] text-sm tracking-wider hover:text-[#141414]/70 transition-colors duration-200" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 }}>
-                Cere o ofertă
+                {translate("hero.cta_quote", locale)}
               </Link>
             </div>
           </div>
@@ -118,19 +122,19 @@ export default function HomePage() {
       <section className="py-20 px-6">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-baseline justify-between mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#141414]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Produsele Noastre</h2>
-            <span className="text-[11px] uppercase tracking-wider text-[#141414]/40" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300 }}>( 165+ modele )</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#141414]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("showcase.title", locale)}</h2>
+            <span className="text-[11px] uppercase tracking-wider text-[#141414]/40" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300 }}>{translate("showcase.count", locale)}</span>
           </div>
           <div className="columns-1 md:columns-2 gap-6">
             {showcase.map((item, i) => (
               <StaggerFade key={i} index={i} className="break-inside-avoid mb-6">
                 <Link href={item.href} className="group block relative overflow-hidden" style={{ aspectRatio: item.aspect }}>
                   <div className="absolute inset-0 bg-[#e8e8e8] flex items-center justify-center">
-                    <span className="text-[#aaa] text-xs uppercase tracking-widest">{item.label}</span>
+                    <span className="text-[#aaa] text-xs uppercase tracking-widest">{translate(item.labelKey, locale)}</span>
                   </div>
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/85 transition-opacity duration-300 flex flex-col justify-center px-6">
                     <motion.h3 className="text-white text-xl font-bold mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }} initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                      {item.label}
+                      {translate(item.labelKey, locale)}
                     </motion.h3>
                     <motion.p className="text-white/70 text-[10px] uppercase tracking-widest" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300 }} initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }}>
                       {item.price}
@@ -146,13 +150,13 @@ export default function HomePage() {
       {/* CE VINDEM */}
       <section className="py-20 px-6">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#141414] mb-8 pt-8 border-t border-[#e5e5e5]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Ce Vindem</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#141414] mb-8 pt-8 border-t border-[#e5e5e5]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("vindem.title", locale)}</h2>
           <div className="border-t border-[#e5e5e5]">
             {vindem.map((item, i) => (
               <StaggerFade key={i} index={i}>
                 <a href={item.href} className="group flex items-center justify-between py-6 border-b border-[#e5e5e5] hover:bg-[#141414] transition-colors duration-200 px-2 -mx-2">
-                  <span className="text-lg font-bold text-[#141414] group-hover:text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{item.name}</span>
-                  <span className="hidden md:block text-[#141414]/60 group-hover:text-white/70 text-sm font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{item.desc}</span>
+                  <span className="text-lg font-bold text-[#141414] group-hover:text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(item.nameKey, locale)}</span>
+                  <span className="hidden md:block text-[#141414]/60 group-hover:text-white/70 text-sm font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(item.descKey, locale)}</span>
                   <ArrowRight size={20} className="text-[#141414] group-hover:text-white transition-colors duration-200" strokeWidth={1.5} />
                 </a>
               </StaggerFade>
@@ -165,7 +169,7 @@ export default function HomePage() {
       <section className="py-20 px-6">
         <div className="mx-auto max-w-4xl text-center mb-16">
           <p className="italic text-[#141414]/80 leading-relaxed" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "clamp(28px, 3vw, 48px)" }}>
-            "Credem că fiecare casă merită o ușă pe măsura ei."
+            "{translate("about.quote", locale)}"
           </p>
         </div>
         <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
@@ -176,18 +180,18 @@ export default function HomePage() {
           </StaggerFade>
           <div className="pt-2">
             <StaggerFade index={1}>
-              <p className="text-[11px] uppercase tracking-widest text-[#141414]/50 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Elena Ungureanu — Relații Clienți</p>
-              <p className="text-sm text-[#141414]/70 mb-8 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Elena te ajută să alegi produsul potrivit și organizează livrarea sau ridicarea comenzii tale.</p>
+              <p className="text-[11px] uppercase tracking-widest text-[#141414]/50 mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("about.elena_role", locale)}</p>
+              <p className="text-sm text-[#141414]/70 mb-8 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("about.elena_bio", locale)}</p>
             </StaggerFade>
             <div className="flex flex-wrap gap-2">
-              {["Distribuitor Autorizat Chirmandi", "Plată la Livrare", "Livrare în toată România"].map((chip, i) => (
+              {(["about.badge1", "about.badge2", "about.badge3"] as TranslationKey[]).map((key, i) => (
                 <StaggerFade key={i} index={i + 2}>
-                  <span className="inline-block border border-[#141414]/20 px-4 py-2 text-[11px] uppercase tracking-wider text-[#141414]">{chip}</span>
+                  <span className="inline-block border border-[#141414]/20 px-4 py-2 text-[11px] uppercase tracking-wider text-[#141414]">{translate(key, locale)}</span>
                 </StaggerFade>
               ))}
             </div>
             <div className="mt-8">
-              <p className="text-[11px] uppercase tracking-widest text-[#141414]/50 mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Telefon</p>
+              <p className="text-[11px] uppercase tracking-widest text-[#141414]/50 mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("about.telefon", locale)}</p>
               <a href="tel:0759378281" className="text-lg text-[#141414] hover:text-[#141414]/70 transition-colors" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>0759 378 281</a>
             </div>
           </div>
@@ -198,10 +202,10 @@ export default function HomePage() {
       <section className="bg-[#141414] py-[80px] px-6">
         <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { value: "165", suffix: "+", label: "Modele" },
-            { value: "", suffix: "", label: "Livrare Națională" },
-            { value: "", suffix: "", label: "Plată la Livrare" },
-            { value: "", suffix: "", label: "Parteneri Chirmandi" },
+            { value: "165", suffix: "+", labelKey: "stats.modele" as TranslationKey },
+            { value: "", suffix: "", labelKey: "stats.national" as TranslationKey },
+            { value: "", suffix: "", labelKey: "stats.plata" as TranslationKey },
+            { value: "", suffix: "", labelKey: "stats.parteneri" as TranslationKey },
           ].map((stat, i) => (
             <StaggerFade key={i} index={i}>
               <div>
@@ -210,7 +214,7 @@ export default function HomePage() {
                     <CountUp end={parseInt(stat.value)} suffix={stat.suffix} />
                   </p>
                 ) : <div className="h-12" />}
-                <p className="text-[10px] uppercase tracking-widest text-white/50 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{stat.label}</p>
+                <p className="text-[10px] uppercase tracking-widest text-white/50 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(stat.labelKey, locale)}</p>
               </div>
             </StaggerFade>
           ))}
@@ -220,7 +224,7 @@ export default function HomePage() {
       {/* CUM FUNCȚIONEAZĂ */}
       <section className="py-20 px-6">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#141414] mb-16" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Cum Funcționează</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#141414] mb-16" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("cum.title", locale)}</h2>
           <div className="space-y-12">
             {steps.map((step, i) => (
               <StaggerFade key={i} index={i}>
@@ -230,8 +234,8 @@ export default function HomePage() {
                     <span className="text-[11px] uppercase tracking-widest text-[#141414]/40" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{step.num}</span>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-[#141414] mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{step.title}</h3>
-                    <p className="text-sm text-[#141414]/50 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{step.desc}</p>
+                    <h3 className="text-xl font-bold text-[#141414] mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(step.titleKey, locale)}</h3>
+                    <p className="text-sm text-[#141414]/50 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(step.descKey, locale)}</p>
                   </div>
                   <ArrowRight size={20} className="text-[#141414]/30 hidden md:block" strokeWidth={1.5} />
                 </div>
@@ -245,13 +249,13 @@ export default function HomePage() {
       <section className="bg-[#141414] py-24 px-6">
         <div className="mx-auto max-w-4xl">
           <h2 className="text-[clamp(48px,6vw,96px)] font-bold text-white leading-[0.95] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            <ClipReveal words={["Hai", "să", "Găsim", "Ușa", "Potrivită"]} />
+            <ClipReveal words={translate("cta.headline", locale).split("\n")} />
           </h2>
-          <p className="text-white/50 font-light mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Răspundem rapid la orice solicitare de ofertă.</p>
-          <Link href="/cere-oferta" className="inline-flex items-center bg-white text-[#141414] px-8 py-3 text-sm font-medium tracking-wider hover:bg-white/90 transition-colors duration-200 mb-10" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>Cere o ofertă →</Link>
+          <p className="text-white/50 font-light mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("cta.sub", locale)}</p>
+          <Link href="/cere-oferta" className="inline-flex items-center bg-white text-[#141414] px-8 py-3 text-sm font-medium tracking-wider hover:bg-white/90 transition-colors duration-200 mb-10" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>{translate("cta.button", locale)}</Link>
           <div>
             <a href="tel:0759378281" className="block text-xl text-white hover:text-white/70 transition-colors" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>0759 378 281</a>
-            <p className="text-[11px] uppercase tracking-wider text-white/40 mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Te sunăm noi pentru confirmare</p>
+            <p className="text-[11px] uppercase tracking-wider text-white/40 mt-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate("cta.phone_note", locale)}</p>
           </div>
         </div>
       </section>
