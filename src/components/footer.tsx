@@ -85,37 +85,40 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-4 mb-4">
             {/* ANPC — official logo from anpc.ro */}
             <a
-              href="https://anpc.ro"
+              href="https://www.anpc.ro/"
               target="_blank"
               rel="noopener noreferrer"
               title="ANPC - Autoritatea Națională pentru Protecția Consumatorilor"
             >
               <img
-                src="https://anpc.ro/wp-content/uploads/2021/03/logo-anpc.png"
+                src="/consumer-protection/anpc.png"
                 alt="ANPC"
-                height={40}
-                style={{ display: "block" }}
+                width={128}
+                height={60}
+                style={{ display: "block", width: 128, height: "auto" }}
               />
             </a>
             {/* SAL badge (not SOL) — current 2026 regulatory badge from anpc.ro */}
             <a
-              href="https://anpc.ro"
+              href="https://reclamatiisal.anpc.ro/"
               target="_blank"
               rel="noopener noreferrer"
               title="SAL - Soluționarea Alternativă a Litigiilor"
             >
               <img
-                src="https://anpc.ro/wp-content/uploads/2024/01/sal.png"
+                src="/consumer-protection/sal.png"
                 alt="SAL"
-                height={40}
-                style={{ display: "block" }}
+                width={201}
+                height={50}
+                style={{ display: "block", width: 201, height: 50 }}
               />
             </a>
           </div>
 
           {/* Legal identity line */}
           <p className="text-[11px] text-[#141414]/40" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            {translate("footer.legal_line", locale)}
+            {translate("footer.legal_line", locale)}<br />
+            Sediu social: Jud. Valcea, Sat Cainenii Mici, Comuna Caineni, Strada Cazacilor Nr 9.
           </p>
         </div>
       </div>

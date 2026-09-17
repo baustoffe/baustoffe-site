@@ -1,0 +1,54 @@
+{
+  "title": "GDPR - Regulamentul General Pentru Protectia Datelor Personale",
+  "blocks": [
+    {
+      "tag": "h2",
+      "text": "Dreptul la rectificare"
+    },
+    {
+      "tag": "p",
+      "text": "Poti folosi link-urile de mai jos pentru a actualiza datele contului tau daca datele nu sunt corecte"
+    },
+    {
+      "tag": "ul",
+      "text": "\n\t\tModifica datele contului\n\t\tSchimba parola\n\t\tAdresa\n\t\tAboneaza-te / Dezaboneaza-te la buletinul de stiri\n\t"
+    },
+    {
+      "tag": "h2",
+      "text": "Portabilitatea Datelor"
+    },
+    {
+      "tag": "p",
+      "text": "Poti folosi link-urile de mai jos pentru a descarca toate datele personale inregistrate in vederea prelucrarii comenzilor plasate in acest magazin online"
+    },
+    {
+      "tag": "ul",
+      "text": "\n\t\tCereri GDPR\n\t\tInformatii personale\n\t\tAdrese salvate\n\t\tComenzile mele\n\t"
+    },
+    {
+      "tag": "h2",
+      "text": "Accesul la date personale"
+    },
+    {
+      "tag": "p",
+      "text": "Poti folosi link-ul de mai jos pentru a solicita un raport care va contine toate datele personale stocate pentru tine"
+    },
+    {
+      "tag": "ul",
+      "text": "\n\t\tSolicita raport\n\t"
+    },
+    {
+      "tag": "h2",
+      "text": "Dreptul de a fi uitat"
+    },
+    {
+      "tag": "p",
+      "text": "Foloseste aceasta optiune daca doresti sa stergi toate datele personale din magazinul noastru. Aceasta actiune va duce la stergerea contului tau si nu vei mai putea plasa comenzi sau accesa istoricul acestora."
+    },
+    {
+      "tag": "ul",
+      "text": "\n\t\tSolicita stergerea datelor personale\n\t"
+    }
+  ],
+  "url": "https://www.chirmandi.ro/instrumente-gdpr"
+}

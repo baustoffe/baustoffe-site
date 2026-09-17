@@ -37,7 +37,7 @@ export function Navbar() {
           scrolled ? "bg-white/95 backdrop-blur-sm" : "bg-transparent"
         )}
       >
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:h-16 lg:py-0">
           <Link
             href="/"
             className="text-xl font-bold tracking-[0.2em] text-[#141414]"
