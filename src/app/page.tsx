@@ -209,7 +209,7 @@ export default function HomePage() {
               <div>
                 <div data-stat-visual style={{ minHeight: "64px", display: "flex", alignItems: "center", justifyContent: "center" }} className="mb-3 text-white">
                   {stat.icon ? <stat.icon size={44} strokeWidth={1.5} aria-hidden="true" /> : (
-                    <p className="text-4xl md:text-5xl font-bold leading-none"><CountUp end={stat.value} /></p>
+                    <p className="text-4xl md:text-5xl font-bold leading-none"><CountUp end={stat.value} suffix="+" /></p>
                   )}
                 </div>
                 <p className="text-[10px] uppercase tracking-widest text-white/50 font-light" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{translate(stat.labelKey, locale)}</p>

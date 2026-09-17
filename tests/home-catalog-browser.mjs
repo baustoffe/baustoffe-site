@@ -21,7 +21,7 @@ try {
    assert.match(href,/^\/(usi-exterior|ferestre|usi-interior)\/[^/]+$/);
   }
   await page.locator('[data-trust-strip]').scrollIntoViewIfNeeded();
-  await page.waitForFunction(() => [...document.querySelectorAll('[data-trust-strip] p')].some(p => p.textContent === '165'), null, { timeout: 5000 });
+  await page.waitForFunction(() => [...document.querySelectorAll('[data-trust-strip] p')].some(p => p.textContent === '165+'), null, { timeout: 5000 });
   await page.waitForTimeout(1500);
   assert.equal(await page.locator('[data-trust-strip] svg').count(),3);
   const boxes=await page.locator('[data-stat-visual]').evaluateAll(els=>els.map(el=>{const b=el.getBoundingClientRect();return {height:b.height,bottom:b.bottom};}));
